@@ -48,7 +48,7 @@ namespace Lab_3_Guestbook
                 //KOntrollerar vad användaren angett och skriver ut text baserat på valet
                 switch (menyChoice)
                 {
-                    //Användaren skrev "1"
+                    //Användaren skrev "1" - Lägga till inlägg
                     case "1":
                         //Ber användare skriva in sitt namn
                         Console.Write("Ange ditt namn:");
@@ -72,12 +72,24 @@ namespace Lab_3_Guestbook
 
                         break;
 
-                    //Användaren skrev "2"
+                    //Användaren skrev "2" - Ta bort inlägg
                     case "2":
-                        Console.WriteLine("Du valde att ta bort ett inlägg");
+                        //Ber användare skriva indexnummer på inlägget de vill ta bort
+                        Console.Write("Skriv indexnummer på inlägget du vill ta bort:");
+
+                        //Läser av användarens input för index och sparar det som text
+                        string? index = Console.ReadLine();
+
+                        //omvandlar index från användarens input från text till heltal då int behövs för metoden DeletePost
+                        int selectedIndex = Convert.ToInt32(index);
+
+                        //Anropar metoden DeletePosts från Guestbook-klassen
+                        //Skickar med det omvandlade indexnumret
+                        myGuestbook.DeletePost(selectedIndex);
+
                         break;
 
-                    //Användaren skrev "3"
+                    //Användaren skrev "3" - Visa inlägg
                     case "3":
                         //Hämtar alla inlägg som finns sparade i Guestbook klassen med metoden GetPosts
                         //List<GuestbookPost> Listan med GuestbookPosts objekt
