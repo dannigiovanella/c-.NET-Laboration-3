@@ -66,26 +66,74 @@ namespace Lab_3_Guestbook
                         //?string används för att inlägg skrivs i text men får också vara null
                         string? text = Console.ReadLine();
 
-                        //Lägger till inlägget (objektet myGuestbook) i gästboken
-                        //Anropar metoden AddPost från Guestbook-klassen som skickar med namn och text
-                        myGuestbook.AddPost(author, text);
+
+                        //KONTROLL AV INPUT
+                        //Kontrollerar så både namn och inläggstext innehåller något
+                        if (!string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(text))
+                        {
+                            //Om båda fälten innehåller text läggs inlägget till
+                            //Lägger till inlägget (objektet myGuestbook) i gästboken
+                            //Anropar metoden AddPost från Guestbook-klassen som skickar med namn och text
+                            myGuestbook.AddPost(author, text);
+                        }
+                        else
+                        {
+                            //Om något av fälten är tomt visas felmeddelande
+                            Console.WriteLine("Fält för namn och inlägg får inte vara tomma");
+                        }
+
 
                         break;
 
                     //Användaren skrev "2" - Ta bort inlägg
                     case "2":
+
+                        //Hämtar alla inlägg som finns sparade i Guestbook klassen med metoden GetPosts
+                        //List<GuestbookPost> Listan med GuestbookPosts objekt
+                        //Listan sparas i variabeln posts som används för att skriva ut listan
+                        List<GuestbookPost> posts = myGuestbook.GetPosts();
+
                         //Ber användare skriva indexnummer på inlägget de vill ta bort
                         Console.Write("Skriv indexnummer på inlägget du vill ta bort:");
 
                         //Läser av användarens input för index och sparar det som text
                         string? index = Console.ReadLine();
 
-                        //omvandlar index från användarens input från text till heltal då int behövs för metoden DeletePost
-                        int selectedIndex = Convert.ToInt32(index);
+                        //KONTROLL AV INPUT
+                        //Kontrollerar så att användare skrivt heltal (ska inte gå att skriva bokstäver)
+                        //TryParse används för att försöka omvandlar input från text till heltal
+                        //Lyckas omvandligen resulterar detta i true och false vid misslyckad omvandling
+                        //out in selectedIndex skapar variabel där heltalet sparas
+                        //
+                        if (int.TryParse(index, out int selectedIndex))
+                        {
 
-                        //Anropar metoden DeletePosts från Guestbook-klassen
-                        //Skickar med det omvandlade indexnumret
-                        myGuestbook.DeletePost(selectedIndex);
+                            //Vid true lyckas omvandlingen:
+
+                            //Kontrollerar att indexet finns blan inläggen
+                            //Indexenummer måste vara 0 eller större
+                            //Index måste vara mindre än antalet inlägg (count räknar inläggen)
+                            if (selectedIndex >= 0 && selectedIndex < posts.Count)
+                            {
+
+                                //Anropar metoden DeletePosts från Guestbook-klassen
+                                //Skickar med selectedIndex för att visa vilket inlägg som ska tas bort
+                                //Tar bort inlägget 
+                                myGuestbook.DeletePost(selectedIndex);
+                            }
+                            else
+                            {
+                                //Om indexet som användare anger inte finns visas felmeddelande.
+                                Console.WriteLine("Det finns inget inlägg med det indexnumret");
+                            }
+
+                        }
+                        else
+                        {
+                            //Vid false och misslyckad omvandling
+                            //Felmeddelande om användare inte skrivit ett giltit heltal
+                            Console.WriteLine("Du måste ange ett giltigt indexnummer");
+                        }
 
                         break;
 
