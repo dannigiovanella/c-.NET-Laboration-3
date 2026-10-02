@@ -70,7 +70,7 @@ public int DeletePost(int index)
             posts.RemoveAt(index);
 
             //Returnerar indexnumret för inlägget som togs bort
-            return Index;
+            return index;
         }
 
 
