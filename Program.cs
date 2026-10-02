@@ -25,54 +25,73 @@ namespace Lab_3_Guestbook
             //new Guestbook() skapar objektet
             Guestbook myGuestbook = new Guestbook();
 
-while (true)
-{
-            //MENY
-            //Skriver ut menyn till användare
-            Console.WriteLine("1. Lägg till inlägg");
-            Console.WriteLine("2. Ta bort inlägg");
-            Console.WriteLine("3. Visa alla inlägg");
-            Console.WriteLine("X. Avsluta");
+            while (true)
+            {
+                //MENY
+                //Skriver ut menyn till användare
+                Console.WriteLine("1. Lägg till inlägg");
+                Console.WriteLine("2. Ta bort inlägg");
+                Console.WriteLine("3. Visa alla inlägg");
+                Console.WriteLine("X. Avsluta");
 
 
 
-            //Frågar användaren vilket alternativ den vill välja
-            Console.Write("Välj ett alternativ:");
+                //Frågar användaren vilket alternativ den vill välja
+                Console.Write("Välj ett alternativ:");
 
 
-            //Läser in input från användaren och spara i variabeln menyChoice
-            //?string används för att inlägget skrivs i text men får också vara null
-            string? menyChoice = Console.ReadLine();
-        
+                //Läser in input från användaren och spara i variabeln menyChoice
+                //?string används för att inlägget skrivs i text men får också vara null
+                string? menyChoice = Console.ReadLine();
 
-        //KOntrollerar vad användaren angett och skriver ut text baserat på valet
-            switch (menyChoice)
-    {
-        //Användaren skrev "1"
-        case "1":
-            Console.WriteLine("Du valde att lägga till ett inlägg");
-            break;
 
-        //Användaren skrev "2"
-        case "2":
-            Console.WriteLine("Du valde att ta bort ett inlägg");
-            break;
+                //KOntrollerar vad användaren angett och skriver ut text baserat på valet
+                switch (menyChoice)
+                {
+                    //Användaren skrev "1"
+                    case "1":
+                        //Ber användare skriva in sitt namn
+                        Console.Write("Ange ditt namn:");
 
-        //Användaren skrev "3"
-        case "3":
-            Console.WriteLine("Du valde att visa alla inlägg");
-            break;
+                        //Vaiablerna author och text motsvarar properties i klassen guestbookPost
 
-        //Användaren skrev "X"
-        //return avslutar mainmetoden och stänger programmet
-        case "X":
-            Console.WriteLine("Stänger programmet");
-            return;
-    }
+                        //Läser in namnet som användare skrev och sparar det i variabeln author 
+                        //?string används för att namnet skrivs i text men får också vara null
+                        string? author = Console.ReadLine();
 
-}
+                        //Ber användare skriva inlägg
+                        Console.Write("Skriv inlägg:");
 
-    }
+                        //Läser in text som användare skrev och sparar det i variabeln text 
+                        //?string används för att inlägg skrivs i text men får också vara null
+                        string? text = Console.ReadLine();
+
+                        //Lägger till inlägget (objektet myGuestbook) i gästboken
+                        //Anropar metoden AddPost från Guestbook-klassen som skickar med namn och text
+                        myGuestbook.AddPost(author, text);
+
+                        break;
+
+                    //Användaren skrev "2"
+                    case "2":
+                        Console.WriteLine("Du valde att ta bort ett inlägg");
+                        break;
+
+                    //Användaren skrev "3"
+                    case "3":
+                        Console.WriteLine("Du valde att visa alla inlägg");
+                        break;
+
+                    //Användaren skrev "X"
+                    //return avslutar mainmetoden och stänger programmet
+                    case "X":
+                        Console.WriteLine("Stänger programmet");
+                        return;
+                }
+
+            }
+
+        }
 
     }
 

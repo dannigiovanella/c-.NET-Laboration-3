@@ -12,7 +12,8 @@ namespace Lab_3_Guestbook
         //Skapar en publik textsträng med property (egenskap) om vem som skrivit inlägget
         //? innebär att värdet även får vara null
         //Author är namnet på personen som gjort inlägget
-        public string? Author {
+        public string? Author
+        {
             //Get används för att kunna hämta namnet
             //Set gör så att ett namn kan läggas till
             get; set;
