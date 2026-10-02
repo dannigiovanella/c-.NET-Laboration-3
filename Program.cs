@@ -79,7 +79,19 @@ namespace Lab_3_Guestbook
 
                     //Användaren skrev "3"
                     case "3":
-                        Console.WriteLine("Du valde att visa alla inlägg");
+                        //Hämtar alla inlägg som finns sparade i Guestbook klassen med metoden GetPosts
+                        //List<GuestbookPost> Listan med GuestbookPosts objekt
+                        //Listan sparas i variabeln posts som används för att skriva ut listan
+                        List<GuestbookPost> posts = myGuestbook.GetPosts();
+
+                        //Loopar igenom inläggen i listan och skriver ut dessa
+                        for (int i = 0; i < posts.Count; i++)
+                        {
+                            //Skriver ut inlägget index, författare och text
+                            Console.WriteLine("[" + i + "] " + posts[i].Author + ": " + posts[i].Text);
+                        }
+
+
                         break;
 
                     //Användaren skrev "X"
