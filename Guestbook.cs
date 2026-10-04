@@ -9,7 +9,7 @@ using System.Collections.Generic;
 //ex. kontroll. läsa av och skriva information till fil
 using System.IO;
 
-//Syste.Text.Json används för att kunna omvandla C# objekt till Json och omvänt
+//System.Text.Json används för att kunna omvandla C# objekt till Json och omvänt
 using System.Text.Json;
 
 //Anger vilken namespace som klassen tillhör
@@ -46,7 +46,7 @@ namespace Lab_3_Guestbook
                 string jsonToText = File.ReadAllText(guestbookJson);
 
                 //Omvandlar json-texten till en lista i GUestbookPost-objektet
-                //Listan sparas i den befintliga varaibeln för Guesbook-lista, posts
+                //Listan som läses av från json-filen sparas i den befintliga varaibeln för Guesbook-lista, posts
                 // ! används för att tala om att att lista ska returneras med deserialize, inte null
                 posts = JsonSerializer.Deserialize<List<GuestbookPost>>(jsonToText)!;
             }
@@ -97,7 +97,7 @@ namespace Lab_3_Guestbook
         /////// Ta bort inlägg //////////
 
 
-        //Method för att ta bort ett inlägg från listan
+        //Metod för att ta bort ett inlägg från listan
         //int index är numret på det inlägget som ska tas bort
         public int DeletePost(int index)
         {
@@ -113,25 +113,25 @@ namespace Lab_3_Guestbook
 
 
         ////// SPARA TILL FIL /////
-        
+
         //Metod för att spara alla gästboksinlägg till json-fil
         //private då denna metod bara används inom klassen
         //void- returnerar inget värde
         private void SaveToJson()
         {
-           //Omvandlar listan (posts) med guestbookPost-objekt till json-text
-           /*ex:
-            "Author": "Daniela"
-            "Text": "Hej!"
-            */
-           var jasonText = JsonSerializer.Serialize(posts);
+            //Omvandlar listan (posts) med guestbookPost-objekt till json-text
+            /*ex:
+             "Author": "Daniela"
+             "Text": "Hej!"
+             */
+            var jsonText = JsonSerializer.Serialize(posts);
 
-           //Skriver json-texten till filen guestbook.json
-           //File.WriteALLText skapar filen
-           File.WriteAllText(guestbookJson, jasonText);
+            //Skriver json-texten till filen guestbook.json
+            //File.WriteALLText skapar filen
+            File.WriteAllText(guestbookJson, jsonText);
         }
 
-        
+
 
 
     }

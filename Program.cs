@@ -1,5 +1,12 @@
 ﻿
-/*SKRIV AV OCH OM HÄR!!!!!!!*/
+/*Laboration 3
+
+Laboration syftar till att skapa en enkel gästbok där användaren kan lägga till,
+ta bort och visa gästboksinkägg.
+Inläggen ska sparas i en JSON-fil så att dessa finns kvar när programmet avslutats.
+
+Kod av: Daniela Giovanella
+*/
 
 /*Programfil som hanterar meny och användares input*/
 
@@ -10,23 +17,28 @@ namespace Lab_3_Guestbook
 {
 
 
-    //Skapar klassen Program som är programmets huvuddel
+    //Skapar klassen Program som innehåller programmets huvuddel
     class Program
     {
-        /*static void main - startmetod. Används föra att programmet ska med Main som metod ska kunna
-        köras utan att först skapat ett program-objekt. Void innebär att detoden inte returnerar någo värde */
+        //static void main är programmets startmetod. 
+        //Programmet börjar köras här när det startas
+        //Void innebär att metoden inte returnerar något värde
         //string och args används för att kunna ta emot argument när programmet startas
         static void Main(string[] args)
         {
 
 
             //Skapar Guestbook-objekt
-            //Gusetbook är klassen medan myGuestbook är namnet på objektet.
-            //new Guestbook() skapar objektet
+            //Gusetbook är klassen och myGuestbook är namnet på objektet.
+            //new Guestbook() skapar objektet från klassen Guestbook
             Guestbook myGuestbook = new Guestbook();
 
             while (true)
             {
+
+                //Rensar console innan manyn visas igen
+                Console.Clear();
+
                 //MENY
                 //Skriver ut menyn till användare
                 Console.WriteLine("1. Lägg till inlägg");
@@ -41,11 +53,11 @@ namespace Lab_3_Guestbook
 
 
                 //Läser in input från användaren och spara i variabeln menyChoice
-                //?string används för att inlägget skrivs i text men får också vara null
+                //?string betydet att värdet är text men får också vara null
                 string? menyChoice = Console.ReadLine();
 
 
-                //KOntrollerar vad användaren angett och skriver ut text baserat på valet
+                //KOntrollerar vilket alternativ användaren angett
                 switch (menyChoice)
                 {
                     //Användaren skrev "1" - Lägga till inlägg
@@ -53,8 +65,7 @@ namespace Lab_3_Guestbook
                         //Ber användare skriva in sitt namn
                         Console.Write("Ange ditt namn:");
 
-                        //Vaiablerna author och text motsvarar properties i klassen guestbookPost
-
+                        //Vaiabeln author och text används för att spara namn som användare skriver in
                         //Läser in namnet som användare skrev och sparar det i variabeln author 
                         //?string används för att namnet skrivs i text men får också vara null
                         string? author = Console.ReadLine();
@@ -62,6 +73,7 @@ namespace Lab_3_Guestbook
                         //Ber användare skriva inlägg
                         Console.Write("Skriv inlägg:");
 
+                        //Vaiabeln text och text används för att spara text som användare skriver in
                         //Läser in text som användare skrev och sparar det i variabeln text 
                         //?string används för att inlägg skrivs i text men får också vara null
                         string? text = Console.ReadLine();
@@ -72,8 +84,8 @@ namespace Lab_3_Guestbook
                         if (!string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(text))
                         {
                             //Om båda fälten innehåller text läggs inlägget till
-                            //Lägger till inlägget (objektet myGuestbook) i gästboken
-                            //Anropar metoden AddPost från Guestbook-klassen som skickar med namn och text
+                            //Anropar metoden AddPost från Guestbook-klassen
+                            //skickar med namn och text till metoden
                             myGuestbook.AddPost(author, text);
                         }
                         else
@@ -82,15 +94,20 @@ namespace Lab_3_Guestbook
                             Console.WriteLine("Fält för namn och inlägg får inte vara tomma");
                         }
 
+                        //Väntar på att användaren trycker på en tangent innan menyn visas igen
+                        //Detta för att unvika att while loop börrjar om innan användare hinner se resultat
+                        //Läser av knapptryck
+                        Console.WriteLine("Tryck på en tangent för att fortsätta.");
+                        Console.ReadKey();
 
                         break;
 
                     //Användaren skrev "2" - Ta bort inlägg
-                    case "2": 
+                    case "2":
 
                         //Hämtar alla inlägg som finns sparade i Guestbook klassen med metoden GetPosts
                         //List<GuestbookPost> Listan med GuestbookPosts objekt
-                        //Listan sparas i variabeln posts som används för att skriva ut listan
+                        //Listan sparas i variabeln postToDelete så att valt index kan kontrolleras
                         List<GuestbookPost> postsToDelete = myGuestbook.GetPosts();
 
                         //Ber användare skriva indexnummer på inlägget de vill ta bort
@@ -110,13 +127,13 @@ namespace Lab_3_Guestbook
 
                             //Vid true lyckas omvandlingen:
 
-                            //Kontrollerar att indexet finns blan inläggen
+                            //Kontrollerar att indexet finns bland inläggen
                             //Indexenummer måste vara 0 eller större
                             //Index måste vara mindre än antalet inlägg (count räknar inläggen)
                             if (selectedIndex >= 0 && selectedIndex < postsToDelete.Count)
                             {
 
-                                //Anropar metoden DeletePosts från Guestbook-klassen
+                                //Anropar metoden DeletePost från Guestbook-klassen
                                 //Skickar med selectedIndex för att visa vilket inlägg som ska tas bort
                                 //Tar bort inlägget 
                                 myGuestbook.DeletePost(selectedIndex);
@@ -130,13 +147,18 @@ namespace Lab_3_Guestbook
                         }
                         else
                         {
-                            //Vid false och misslyckad omvandling
+                            //Om TryParse returnerar false och misslyckad omvandling:
                             //Felmeddelande om användare inte skrivit ett giltit heltal
                             Console.WriteLine("Du måste ange ett giltigt indexnummer");
                         }
 
+                        //Väntar på att användaren trycker på en tangent innan menyn visas igen
+                        //Läser av knapptryck
+                        Console.WriteLine("Tryck på en tangent för att fortsätta.");
+                        Console.ReadKey();
+
                         break;
-                    
+
 
                     //Användaren skrev "3" - Visa inlägg
                     case "3":
@@ -152,6 +174,12 @@ namespace Lab_3_Guestbook
                             Console.WriteLine("[" + i + "] " + posts[i].Author + ": " + posts[i].Text);
                         }
 
+
+                        //Väntar på att användaren trycker på en tangent innan menyn visas igen
+                        //Detta för att unvika att while loop börrjar om innan användare hinner se resultat
+                        //Läser av knapptryck
+                        Console.WriteLine("Tryck på en tangent för att fortsätta.");
+                        Console.ReadKey();
 
                         break;
 

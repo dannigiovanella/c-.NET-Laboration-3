@@ -9,18 +9,19 @@ namespace Lab_3_Guestbook
     //Public klass eftersom denna ska användas i andra delar av programmet
     public class GuestbookPost
     {
-        //Skapar en publik textsträng med property (egenskap) om vem som skrivit inlägget
+        //Skapar en publik property (egenskap) om vem som skrivit inlägget
+        //String då värdet är text
         //? innebär att värdet även får vara null
         //Author är namnet på personen som gjort inlägget
         public string? Author
         {
             //Get används för att kunna hämta namnet
-            //Set gör så att ett namn kan läggas till
+            //Set gör så att ett namn kan läggas till eller ändras
             get; set;
         }
 
         //Publik property som för texten som personen har skrivit
-        //Även här kan värder vara null (?)
+        //Även här kan värdet vara null (?)
         public string? Text
         {
             //Get används för att hämta och läsa av texten
