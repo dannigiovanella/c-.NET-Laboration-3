@@ -5,6 +5,13 @@
 //Gör så att List (lista) kan användas i programmet. 
 using System.Collections.Generic;
 
+//System.IO används för att kunna hantera filer
+//ex. kontroll. läsa av och skriva information till fil
+using System.IO;
+
+//Syste.Text.Json används för att kunna omvandla C# objekt till Json och omvänt
+using System.Text.Json;
+
 //Anger vilken namespace som klassen tillhör
 namespace Lab_3_Guestbook
 {
@@ -14,11 +21,36 @@ namespace Lab_3_Guestbook
     //Public för att klassen ska kunna användas från andra delar i programmet.
     public class Guestbook
     {
+
+        //Anger JSON filnamnet där gästboksinläggen ska sparas
+        //Sparas i private variabel då bara ska användas inom denna klassen
+        private string guestbookJson = @"guestbook.json";
+
+
         //Skapar en private list som bara ska kunnas användas inom klassen
         //List är en typ för att lagra flera objekt i en lista. (Gästboksinläggen)  
         //posts - Namnet pålistan
         //new list<GuestbookPost>() skapar en ny tom lista att placera inläggen i som skapats i klassen GuestbookPost.
         private List<GuestbookPost> posts = new List<GuestbookPost>();
+
+
+        //KOnstruktor för klassen Guestbook som körst automatiskt när nytt Guestbook-objekt skapas
+        //Public då denna används när objekt skapas i program-filen
+        public Guestbook()
+        {
+            //Kontrollerar om filen finns, om sant läses fil av och omvandlas till C# objekt
+            if (File.Exists(guestbookJson) == true)
+            {
+
+                //Läser av innehåller i json-fil och sparar som text i variaveln jsonToText
+                string jsonToText = File.ReadAllText(guestbookJson);
+
+                //Omvandlar json-texten till en lista i GUestbookPost-objektet
+                //Listan sparas i den befintliga varaibeln för Guesbook-lista, posts
+                // ! används för att tala om att att lista ska returneras med deserialize, inte null
+                posts = JsonSerializer.Deserialize<List<GuestbookPost>>(jsonToText)!;
+            }
+        }
 
 
         ////////// Lägga till inlägg /////////
@@ -39,6 +71,9 @@ namespace Lab_3_Guestbook
 
             //Lägger till  nytt inlägg i listan
             posts.Add(post);
+
+            //Sparar uppdaterad lista till jsson-filen
+            SaveToJson();
 
             //Skickar tillbaka de nya guestbookPost objektet
             return post;
@@ -69,9 +104,34 @@ namespace Lab_3_Guestbook
             //RemoveAt tar bort inlägget som finns på den plats i listan som angivits
             posts.RemoveAt(index);
 
+            //Spara uppdaterad lista till Json-fil
+            SaveToJson();
+
             //Returnerar indexnumret för inlägget som togs bort
             return index;
         }
+
+
+        ////// SPARA TILL FIL /////
+        
+        //Metod för att spara alla gästboksinlägg till json-fil
+        //private då denna metod bara används inom klassen
+        //void- returnerar inget värde
+        private void SaveToJson()
+        {
+           //Omvandlar listan (posts) med guestbookPost-objekt till json-text
+           /*ex:
+            "Author": "Daniela"
+            "Text": "Hej!"
+            */
+           var jasonText = JsonSerializer.Serialize(posts);
+
+           //Skriver json-texten till filen guestbook.json
+           //File.WriteALLText skapar filen
+           File.WriteAllText(guestbookJson, jasonText);
+        }
+
+        
 
 
     }

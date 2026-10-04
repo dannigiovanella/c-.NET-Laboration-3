@@ -86,12 +86,12 @@ namespace Lab_3_Guestbook
                         break;
 
                     //Användaren skrev "2" - Ta bort inlägg
-                    case "2":
+                    case "2": 
 
                         //Hämtar alla inlägg som finns sparade i Guestbook klassen med metoden GetPosts
                         //List<GuestbookPost> Listan med GuestbookPosts objekt
                         //Listan sparas i variabeln posts som används för att skriva ut listan
-                        List<GuestbookPost> posts = myGuestbook.GetPosts();
+                        List<GuestbookPost> postsToDelete = myGuestbook.GetPosts();
 
                         //Ber användare skriva indexnummer på inlägget de vill ta bort
                         Console.Write("Skriv indexnummer på inlägget du vill ta bort:");
@@ -113,7 +113,7 @@ namespace Lab_3_Guestbook
                             //Kontrollerar att indexet finns blan inläggen
                             //Indexenummer måste vara 0 eller större
                             //Index måste vara mindre än antalet inlägg (count räknar inläggen)
-                            if (selectedIndex >= 0 && selectedIndex < posts.Count)
+                            if (selectedIndex >= 0 && selectedIndex < postsToDelete.Count)
                             {
 
                                 //Anropar metoden DeletePosts från Guestbook-klassen
@@ -136,6 +136,7 @@ namespace Lab_3_Guestbook
                         }
 
                         break;
+                    
 
                     //Användaren skrev "3" - Visa inlägg
                     case "3":
